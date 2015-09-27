@@ -12,7 +12,6 @@
         android:layout_height="240dp"
         android:scaleType="fitXY"
         android:layout_marginTop="50dp"
-
         android:src="@mipmap/header_image" />
 
 

@@ -10,14 +10,14 @@ public interface IMomentsView {
 
 
     /**
-     * 显示用户信息
+     * Display user info
      */
     void setUserInfo(UserInfoModel usrInfo);
 
     /**
-     * 显示列表数据
+     * Display tweets in listView
      */
-    void showListData(MomentsAdapter adapter);
+    void setListData(MomentsAdapter adapter);
 
 
 }

@@ -14,13 +14,14 @@ import android.widget.Toast;
 
 import com.alex.wechatmoments.R;
 import com.alex.wechatmoments.Utils.CommonUtils;
+import com.alex.wechatmoments.Utils.CustomTextView;
 import com.alex.wechatmoments.model.MomentsModel;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 /**
- * Adapter
+ * Moments Adapter
  */
 public class MomentsAdapter extends BaseAdapter {
 
@@ -69,7 +70,7 @@ public class MomentsAdapter extends BaseAdapter {
 
             holder.avatarImageView = (ImageView) convertView.findViewById(R.id.id_avatarIv);
             holder.senderTv = (TextView) convertView.findViewById(R.id.id_senderTv);
-            holder.contentTv = (TextView) convertView.findViewById(R.id.id_contentTv);
+            holder.contentTv = (CustomTextView) convertView.findViewById(R.id.id_contentTv);
             holder.timeTv = (TextView) convertView.findViewById(R.id.id_timeTv);
             holder.operateImageView = (ImageView) convertView.findViewById(R.id.id_operateIv);
             holder.commentsGridLayout = (GridLayout) convertView.findViewById(R.id.id_commentsGridLayout);
@@ -83,20 +84,20 @@ public class MomentsAdapter extends BaseAdapter {
 
         holder.imagesGridLayaout.removeAllViews();
 
-        if (model.getSender() != null) {
+        if (model.getSender() != null) {//set user info
             Glide.with(mContext).load(model.getSender().getAvatar()).placeholder(R.mipmap.default_avatar).into(holder.avatarImageView);
             holder.senderTv.setText(model.getSender().getUsername());
 
         }
-        if(TextUtils.isEmpty(model.getContent())){
+        if(TextUtils.isEmpty(model.getContent())){//set content
             holder.contentTv.setVisibility(View.GONE);
         }else{
             holder.contentTv.setVisibility(View.VISIBLE);
             holder.contentTv.setText(model.getContent());
         }
 
-        setImagesLayout(model, holder.imagesGridLayaout);
-        setCommentsLayout(model,holder.commentsGridLayout);
+        setImagesLayout(model, holder.imagesGridLayaout);//set images
+        setCommentsLayout(model,holder.commentsGridLayout);//set comments
 
         return convertView;
     }
@@ -187,7 +188,7 @@ public class MomentsAdapter extends BaseAdapter {
                             }
                         });
                         count++;
-                        GridLayout.Spec rowSpec = GridLayout.spec(i);     //设置它的行和列
+                        GridLayout.Spec rowSpec = GridLayout.spec(i);     //Set rows and columns
                         GridLayout.Spec columnSpec = GridLayout.spec(j);
                         GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
                         params.setGravity(Gravity.FILL);
@@ -204,7 +205,7 @@ final class ViewHolder {
 
     public ImageView avatarImageView;
     public TextView senderTv;
-    public TextView contentTv;
+    public CustomTextView contentTv;
     public TextView timeTv;
     public ImageView operateImageView;
     public GridLayout commentsGridLayout;

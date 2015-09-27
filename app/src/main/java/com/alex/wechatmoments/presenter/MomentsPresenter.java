@@ -19,6 +19,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
+ * MomentsPresenter
+ * <p/>
  * Created by Chen on 2015/8/21.
  */
 public class MomentsPresenter extends BasePresenter {
@@ -48,7 +50,7 @@ public class MomentsPresenter extends BasePresenter {
             @Override
             public void success(String userInfo, Response response) {
 
-                String result = userInfo.replace("-", "");// profile-image  ~  profileImage
+                String result = userInfo.replace("-", "");// "profile-image"  ~  "profileImage"
 
                 UserInfoModel user =
                         CommonUtils.gson.fromJson(result, new TypeToken<UserInfoModel>() {
@@ -83,7 +85,7 @@ public class MomentsPresenter extends BasePresenter {
                     mInitDatas.add(mDatas.get(i));
                 }
                 adapter.setDatas(mInitDatas);
-                momentsView.showListData(adapter);
+                momentsView.setListData(adapter);
 
             }
 
@@ -103,7 +105,7 @@ public class MomentsPresenter extends BasePresenter {
      * @return
      */
     private List<MomentsModel> resultDatas(String resultStr) {
-        String result = resultStr.replace("unknown ", "");
+        String result = resultStr.replace("unknown ", "");//"unknown error" ~ "error"
 
         List<MomentsModel> momentsModels = CommonUtils.gson.fromJson(result, new TypeToken<List<MomentsModel>>() {
         }.getType());
@@ -124,6 +126,10 @@ public class MomentsPresenter extends BasePresenter {
      * refresh
      */
     public void setRefreshData() {
+        mInitDatas.clear();
+        for (int i = 0; i < 5; i++) {
+            mInitDatas.add(mDatas.get(i));
+        }
         adapter.setDatas(mInitDatas);
         adapter.notifyDataSetChanged();
     }
@@ -132,7 +138,18 @@ public class MomentsPresenter extends BasePresenter {
      * load more
      */
     public void setLoadMoreData() {
-        adapter.setDatas(mDatas);
+
+        if (mInitDatas.size() < mDatas.size()) {
+            int j = 0;
+            for (int i = mInitDatas.size() ; i < mDatas.size(); i++) {
+                if(j>5){
+                    break;
+                }
+                mInitDatas.add(mDatas.get(i));
+                j++;
+            }
+        }
+        adapter.setDatas(mInitDatas);
         adapter.notifyDataSetChanged();
     }
 

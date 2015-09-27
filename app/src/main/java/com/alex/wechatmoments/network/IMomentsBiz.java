@@ -8,7 +8,7 @@ import retrofit.http.Path;
 /**
  * Created by Chen on 2015/8/21.
  */
-public interface IUserBiz {
+public interface IMomentsBiz {
 
     String URL = "http://thoughtworks-ios.herokuapp.com";
 

@@ -18,17 +18,18 @@ import android.widget.LinearLayout;
 
 import com.alex.wechatmoments.R;
 
+/**
+ * Head Rotate view
+ */
 public class RotateLayout extends LinearLayout {
 
 	public RotateLayout(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		init();
 	}
 
 	public RotateLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		init();
 	}
 

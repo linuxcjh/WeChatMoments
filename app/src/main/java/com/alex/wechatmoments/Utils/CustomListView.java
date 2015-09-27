@@ -17,7 +17,10 @@ import android.widget.TextView;
 
 import com.alex.wechatmoments.R;
 
-public class PullListView extends ListView implements OnScrollListener {
+/**
+ * Pull down and up ListView
+ */
+public class CustomListView extends ListView implements OnScrollListener {
 	private float mInitialMotionY, mLastMotionY, moveY_1, moveY_2;
 	private boolean mIsBeingDragged = false;
 	private int mTop = 0;
@@ -28,24 +31,24 @@ public class PullListView extends ListView implements OnScrollListener {
 	private RotateLayout rotateLayout;
 	private boolean isRefreshing = false, isLoadMore = false;
 
-	public PullListView(Context context) {
+	public CustomListView(Context context) {
 		super(context);
 		init();
 	}
 
-    public PullListView(Context context, AttributeSet attrs) {
+    public CustomListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public PullListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
 
 
-	public PullListView getInstance() {
+	public CustomListView getInstance() {
 		return this;
 	}
 
@@ -144,7 +147,7 @@ public class PullListView extends ListView implements OnScrollListener {
 				if (mLastMotionY - mInitialMotionY > mTop) {
 					OnRefreshing();
 					if (null != mOnRefreshListener) {
-						mOnRefreshListener.onRefresh(PullListView.this);
+						mOnRefreshListener.onRefresh(CustomListView.this);
 					}
 				} else {
 					onCompleteRefresh();
@@ -177,13 +180,13 @@ public class PullListView extends ListView implements OnScrollListener {
 	 * 
 	 * @author Chris Banes
 	 */
-	public static interface OnRefreshListener<V extends View> {
+	public  interface OnRefreshListener<V extends View> {
 
 		/**
 		 * onRefresh will be called for both a Pull from start, and Pull from
 		 * end
 		 */
-		public void onRefresh(PullListView refreshView);
+		 void onRefresh(CustomListView refreshView);
 
 	}
 
@@ -192,13 +195,13 @@ public class PullListView extends ListView implements OnScrollListener {
 	 * 
 	 * @author Chris Banes
 	 */
-	public static interface OnLoadMoreListener<V extends View> {
+	public  interface OnLoadMoreListener<V extends View> {
 
 		/**
 		 * onRefresh will be called for both a Pull from start, and Pull from
 		 * end
 		 */
-		public void onLoadMore(PullListView refreshView);
+		 void onLoadMore(CustomListView refreshView);
 
 	}
 
@@ -315,7 +318,7 @@ public class PullListView extends ListView implements OnScrollListener {
 
 			// If we're not at the target Y, keep going...
 			if (mContinueRunning && mScrollToY != mCurrentY) {
-				ViewCompat.postOnAnimation(PullListView.this, this);
+				ViewCompat.postOnAnimation(CustomListView.this, this);
 			} else {
 				if (null != mListener) {
 					mListener.onSmoothScrollFinished();

@@ -33,7 +33,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/id_appbar">
 
-        <com.alex.wechatmoments.Utils.PullListView
+        <com.alex.wechatmoments.Utils.CustomListView
             android:id="@+id/refreshlistview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
