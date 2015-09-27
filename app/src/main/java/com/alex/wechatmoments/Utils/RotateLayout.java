@@ -39,7 +39,7 @@ public class RotateLayout extends LinearLayout {
 	private float curDegrees = 0;
 
 	void init() {
-		view = LayoutInflater.from(getContext()).inflate(R.layout.rotatelayout,
+		view = LayoutInflater.from(getContext()).inflate(R.layout.rotate_layout,
 				this);
 		bm = BitmapFactory.decodeResource(getResources(),
 				R.mipmap.userguide_moments_icon);

@@ -33,7 +33,7 @@ public class CommonUtils {
      */
     public static int dpToPx(Context context,int size){
         float scale = context.getResources().getDisplayMetrics().density;
-        int px = (int) (90 * scale + 0.5f);
+        int px = (int) (size * scale + 0.5f);
 
         return  px;
     }

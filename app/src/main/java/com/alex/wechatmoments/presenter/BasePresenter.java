@@ -2,8 +2,8 @@ package com.alex.wechatmoments.presenter;
 
 
 import com.alex.wechatmoments.Utils.CommonUtils;
-import com.alex.wechatmoments.adapter.RetrofitStringConverter;
-import com.alex.wechatmoments.network.IMomentsBiz;
+import com.alex.wechatmoments.converter.RetrofitStringConverter;
+import com.alex.wechatmoments.service.IMomentsBiz;
 
 import retrofit.RestAdapter;
 

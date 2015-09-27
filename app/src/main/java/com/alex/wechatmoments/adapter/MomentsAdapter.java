@@ -25,28 +25,30 @@ import java.util.List;
  */
 public class MomentsAdapter extends BaseAdapter {
 
+    private final int ALL_PICTURES_SIZE = 90;
+    private final int ZERO_PICTURES_SIZE = 0;
 
     private LayoutInflater mLayoutInflater;
-    private List<MomentsModel> mDatas;
+    private List<MomentsModel> momentsModels;
     private MomentsModel model;
     private Context mContext;
 
 
-    public MomentsAdapter(Context context, List<MomentsModel> mDatas) {
+    public MomentsAdapter(Context context, List<MomentsModel> momentsModels) {
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mContext = context;
-        this.mDatas = mDatas;
+        this.momentsModels = momentsModels;
 
     }
 
     public void setDatas(List<MomentsModel> data) {
 
-        this.mDatas = data;
+        this.momentsModels = data;
     }
 
     @Override
     public int getCount() {
-        return mDatas != null ? mDatas.size() : 0;
+        return momentsModels != null ? momentsModels.size() : 0;
     }
 
     @Override
@@ -80,7 +82,7 @@ public class MomentsAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        model = mDatas.get(position);
+        model = momentsModels.get(position);
 
         holder.imagesGridLayaout.removeAllViews();
 
@@ -117,14 +119,14 @@ public class MomentsAdapter extends BaseAdapter {
 
             for (int i = 0; i < model.getComments().size(); i++) {
                 View view = LayoutInflater.from(mContext).inflate(R.layout.moments_item_comments_layout, null);
-                TextView userNameTv = (TextView) view.findViewById(R.id.id_userName);
-                TextView contentTv = (TextView) view.findViewById(R.id.id_content);
+                final TextView userNameTv = (TextView) view.findViewById(R.id.id_userName);
+                final TextView contentTv = (TextView) view.findViewById(R.id.id_content);
                 userNameTv.setText(model.getComments().get(i).getSender().getUsername() + "：");
                 contentTv.setText(model.getComments().get(i).getContent());
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext, " Toast ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, userNameTv.getText().toString()+contentTv.getText().toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -148,17 +150,16 @@ public class MomentsAdapter extends BaseAdapter {
         if (model.getImages() != null && model.getImages().size() > 0) {
 
             int column = 3;
-            int pictureSize = 90;
+            int pictureSize = ALL_PICTURES_SIZE;
             int row = model.getImages().size() / column + (model.getImages().size() % column == 0 ? 0 : 1);
 
             imagesGridLayaout.setRowCount(row);
 
             if (model.getImages().size() == 4) { // Four pictures
                 column = 2;
-                pictureSize = 180;
             } else if (model.getImages().size() == 1) { //a picture
                 column = 1;
-                pictureSize = 0;
+                pictureSize = ZERO_PICTURES_SIZE;
             }
             imagesGridLayaout.setColumnCount(column);
             int count = 0;
@@ -170,7 +171,7 @@ public class MomentsAdapter extends BaseAdapter {
                         View view = LayoutInflater.from(mContext).inflate(R.layout.moments_item_pictrue_layout, null);
                         ImageView imageView = (ImageView) view.findViewById(R.id.id_picture);
 
-                        if (pictureSize != 0) {
+                        if (pictureSize != ZERO_PICTURES_SIZE) {
                             ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
                             layoutParams.width = CommonUtils.dpToPx(mContext, pictureSize);
                             layoutParams.height = CommonUtils.dpToPx(mContext, pictureSize);

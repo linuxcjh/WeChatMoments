@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alex.wechatmoments.adapter;
+package com.alex.wechatmoments.converter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;

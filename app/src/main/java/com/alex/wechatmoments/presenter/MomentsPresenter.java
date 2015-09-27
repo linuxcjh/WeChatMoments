@@ -25,19 +25,31 @@ import retrofit.client.Response;
  */
 public class MomentsPresenter extends BasePresenter {
 
+    /**
+     * Operate activity display
+     */
     public IMomentsView momentsView;
+    /**
+     * Adapter
+     */
     private MomentsAdapter adapter;
-    private List<MomentsModel> mDatas;
-    private List<MomentsModel> mInitDatas;
+    /**
+     * All tweets
+     */
+    private List<MomentsModel> momentsModels;
+    /**
+     * Set 5 of them each time
+     */
+    private List<MomentsModel> mInitModels;
     private Context mContext;
 
     public MomentsPresenter(Context context, IMomentsView momentsView) {
 
         this.mContext = context;
         this.momentsView = momentsView;
-        mInitDatas = new ArrayList<>();
-        mDatas = new ArrayList<>();
-        adapter = new MomentsAdapter(context, mDatas);
+        mInitModels = new ArrayList<>();
+        momentsModels = new ArrayList<>();
+        adapter = new MomentsAdapter(context, momentsModels);
     }
 
 
@@ -80,11 +92,11 @@ public class MomentsPresenter extends BasePresenter {
             @Override
             public void success(String resultStr, Response response) {
 
-                mDatas = resultDatas(resultStr);
+                momentsModels = resultDatas(resultStr);
                 for (int i = 0; i < 5; i++) {
-                    mInitDatas.add(mDatas.get(i));
+                    mInitModels.add(momentsModels.get(i));
                 }
-                adapter.setDatas(mInitDatas);
+                adapter.setDatas(mInitModels);
                 momentsView.setListData(adapter);
 
             }
@@ -126,11 +138,11 @@ public class MomentsPresenter extends BasePresenter {
      * refresh
      */
     public void setRefreshData() {
-        mInitDatas.clear();
+        mInitModels.clear();
         for (int i = 0; i < 5; i++) {
-            mInitDatas.add(mDatas.get(i));
+            mInitModels.add(momentsModels.get(i));
         }
-        adapter.setDatas(mInitDatas);
+        adapter.setDatas(mInitModels);
         adapter.notifyDataSetChanged();
     }
 
@@ -139,17 +151,17 @@ public class MomentsPresenter extends BasePresenter {
      */
     public void setLoadMoreData() {
 
-        if (mInitDatas.size() < mDatas.size()) {
+        if (mInitModels.size() < momentsModels.size()) {
             int j = 0;
-            for (int i = mInitDatas.size() ; i < mDatas.size(); i++) {
-                if(j>5){
+            for (int i = mInitModels.size(); i < momentsModels.size(); i++) {
+                if (j > 5) {
                     break;
                 }
-                mInitDatas.add(mDatas.get(i));
+                mInitModels.add(momentsModels.get(i));
                 j++;
             }
         }
-        adapter.setDatas(mInitDatas);
+        adapter.setDatas(mInitModels);
         adapter.notifyDataSetChanged();
     }
 

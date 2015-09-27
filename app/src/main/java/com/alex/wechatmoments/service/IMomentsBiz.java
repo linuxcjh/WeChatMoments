@@ -1,4 +1,4 @@
-package com.alex.wechatmoments.network;
+package com.alex.wechatmoments.service;
 
 
 import retrofit.Callback;

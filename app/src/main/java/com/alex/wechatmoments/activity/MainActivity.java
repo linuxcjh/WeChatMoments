@@ -1,4 +1,4 @@
-package com.alex.wechatmoments;
+package com.alex.wechatmoments.activity;
 
 import android.graphics.Color;
 import android.os.Handler;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alex.wechatmoments.R;
 import com.alex.wechatmoments.Utils.CustomListView;
 import com.alex.wechatmoments.Utils.RotateLayout;
 import com.alex.wechatmoments.adapter.MomentsAdapter;
@@ -52,7 +53,7 @@ public class MainActivity extends ActivityBase implements IMomentsView {
     @Override
     public int setContentViewResId() {
 
-        return R.layout.activity_main_test;
+        return R.layout.activity_moments_main_layout;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MainActivity extends ActivityBase implements IMomentsView {
         userNameTv = (TextView) headView.findViewById(R.id.id_userName);
         profileImage = (ImageView) headView.findViewById(R.id.id_headIv);
 
-        View footView = getLayoutInflater().from(this).inflate(R.layout.footlayout, null);//FooterView layout
+        View footView = getLayoutInflater().from(this).inflate(R.layout.footer_layout, null);//FooterView layout
 
         customListView.setPullHeaderView(headView);
         customListView.setPullFooterView(footView);
