@@ -177,6 +177,7 @@ public class MomentsAdapter extends BaseAdapter {
                         }
 
                         Glide.with(mContext).load(model.getImages().get(count).getUrl()).placeholder(R.mipmap.default_avatar).into(imageView);
+//                        Glide.with(mContext).load("http://farm1.staticflickr.com/134/325376313_4ed1988001.jpg").placeholder(R.mipmap.default_avatar).into(imageView);
 
                         final String url = model.getImages().get(count).getUrl();
                         imageView.setOnClickListener(new View.OnClickListener() {

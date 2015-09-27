@@ -36,7 +36,7 @@
             android:id="@+id/id_userAvatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
              />
     </LinearLayout>

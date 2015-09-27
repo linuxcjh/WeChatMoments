@@ -1,11 +1,14 @@
 package com.alex.wechatmoments.presenter;
 
+import android.content.Context;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.alex.wechatmoments.Utils.CommonUtils;
+import com.alex.wechatmoments.adapter.MomentsAdapter;
 import com.alex.wechatmoments.model.MomentsModel;
 import com.alex.wechatmoments.model.UserInfoModel;
-import com.alex.wechatmoments.view.IMommentsView;
+import com.alex.wechatmoments.view.IMomentsView;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -20,16 +23,24 @@ import retrofit.client.Response;
  */
 public class MomentsPresenter extends BasePresenter {
 
-    public IMommentsView mommentsView;
+    public IMomentsView momentsView;
+    private MomentsAdapter adapter;
+    private List<MomentsModel> mDatas;
+    private List<MomentsModel> mInitDatas;
+    private Context mContext;
 
-    public MomentsPresenter(IMommentsView mommentsView) {
+    public MomentsPresenter(Context context, IMomentsView momentsView) {
 
-        this.mommentsView = mommentsView;
+        this.mContext = context;
+        this.momentsView = momentsView;
+        mInitDatas = new ArrayList<>();
+        mDatas = new ArrayList<>();
+        adapter = new MomentsAdapter(context, mDatas);
     }
 
 
     /**
-     * Obtain user info
+     * Get user info
      */
     public void getUserInfo(String userName) {
 
@@ -37,26 +48,27 @@ public class MomentsPresenter extends BasePresenter {
             @Override
             public void success(String userInfo, Response response) {
 
-                String result = userInfo.replace("-", "");
+                String result = userInfo.replace("-", "");// profile-image  ~  profileImage
 
                 UserInfoModel user =
                         CommonUtils.gson.fromJson(result, new TypeToken<UserInfoModel>() {
                         }.getType());
 
-                mommentsView.setUserInfo(user);
+                momentsView.setUserInfo(user);
 
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
+
     /**
-     * Obtain tweets
+     * Get tweets
      *
      * @param userName
      */
@@ -64,30 +76,65 @@ public class MomentsPresenter extends BasePresenter {
 
         apiHttp.getListData(userName, new Callback<String>() {
             @Override
-            public void success(String resutlStr, Response response) {
+            public void success(String resultStr, Response response) {
 
-                String result = resutlStr.replace("unknown ", "");
-
-                List<MomentsModel> momentsModels = CommonUtils.gson.fromJson(result, new TypeToken<List<MomentsModel>>() {
-                }.getType());
-
-                List<MomentsModel> resultModels = new ArrayList<MomentsModel>();
-
-                for (int i = 0; i < momentsModels.size(); i++) {
-                    if (momentsModels.get(i).getImages() != null || !TextUtils.isEmpty(momentsModels.get(i).getContent())) {
-                        resultModels.add(momentsModels.get(i));
-                    }
+                mDatas = resultDatas(resultStr);
+                for (int i = 0; i < 5; i++) {
+                    mInitDatas.add(mDatas.get(i));
                 }
-
-                mommentsView.showListData(resultModels);
+                adapter.setDatas(mInitDatas);
+                momentsView.showListData(adapter);
 
             }
 
             @Override
             public void failure(RetrofitError error) {
 
+                Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
+
+    /**
+     * Get result
+     *
+     * @param resultStr
+     * @return
+     */
+    private List<MomentsModel> resultDatas(String resultStr) {
+        String result = resultStr.replace("unknown ", "");
+
+        List<MomentsModel> momentsModels = CommonUtils.gson.fromJson(result, new TypeToken<List<MomentsModel>>() {
+        }.getType());
+
+        List<MomentsModel> resultModels = new ArrayList<>();
+
+        for (int i = 0; i < momentsModels.size(); i++) { //ignore the tweet which does not contain a content and images
+            if (momentsModels.get(i).getImages() != null || !TextUtils.isEmpty(momentsModels.get(i).getContent())) {
+                resultModels.add(momentsModels.get(i));
+            }
+        }
+
+        return resultModels;
+    }
+
+
+    /**
+     * refresh
+     */
+    public void setRefreshData() {
+        adapter.setDatas(mInitDatas);
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
+     * load more
+     */
+    public void setLoadMoreData() {
+        adapter.setDatas(mDatas);
+        adapter.notifyDataSetChanged();
+    }
+
 
 }

@@ -1,14 +1,12 @@
 package com.alex.wechatmoments.view;
 
-import com.alex.wechatmoments.model.MomentsModel;
+import com.alex.wechatmoments.adapter.MomentsAdapter;
 import com.alex.wechatmoments.model.UserInfoModel;
-
-import java.util.List;
 
 /**
  * Created by Chen on 2015/8/21.
  */
-public interface IMommentsView {
+public interface IMomentsView {
 
 
     /**
@@ -19,7 +17,7 @@ public interface IMommentsView {
     /**
      * 显示列表数据
      */
-    void showListData(List<MomentsModel> data);
+    void showListData(MomentsAdapter adapter);
 
 
 }

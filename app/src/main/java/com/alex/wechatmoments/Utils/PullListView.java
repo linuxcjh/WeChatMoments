@@ -115,7 +115,6 @@ public class PullListView extends ListView implements OnScrollListener {
 				moveY_1 = event.getY();
 				if (moveY_1 != moveY_2) {
 					float rotate = moveY_2 - moveY_1;
-					System.out.println("rotate= " + rotate);
 					moveY_2 = moveY_1;
 					if (mLastMotionY - mInitialMotionY > 0) {
 						mIsBeingDragged = true;
@@ -125,7 +124,6 @@ public class PullListView extends ListView implements OnScrollListener {
 						return super.onTouchEvent(newMotionEvent(event));
 					}
 				}
-				System.out.println("mLastMotionY:" + mLastMotionY);
 			}
 			break;
 		}
@@ -153,7 +151,7 @@ public class PullListView extends ListView implements OnScrollListener {
 				}
 
 			}
-			// rotateLayout.toup();
+//			 rotateLayout.toup();
 			break;
 		}
 		}
@@ -205,9 +203,8 @@ public class PullListView extends ListView implements OnScrollListener {
 	}
 
 	public void onCompleteRefresh() {
-        footProgessBar.setVisibility(View.GONE);
-        footTv.setText("无更多数据");
-//        footerView.setVisibility(View.GONE);
+//        footProgessBar.setVisibility(View.GONE);
+//        footTv.setText("无更多数据");
 		if (isRefreshing) {
 			isRefreshing = false;
 		}
@@ -225,6 +222,27 @@ public class PullListView extends ListView implements OnScrollListener {
 				});
 		postDelayed(mCurrentSmoothScrollRunnable, 20);
 	}
+
+    public void onCompleteLoadMore() {
+        footProgessBar.setVisibility(View.GONE);
+        footTv.setText("无更多数据");
+        if (isRefreshing) {
+            isRefreshing = false;
+        }
+//        rotateLayout.toup();
+        if (isLoadMore) {
+            isLoadMore = false;
+        }
+        mCurrentSmoothScrollRunnable = new SmoothScrollRunnable(
+                headerView.getPaddingTop() + mTop, 0, 300,
+                new OnSmoothScrollFinishedListener() {
+                    @Override
+                    public void onSmoothScrollFinished() {
+
+                    }
+                });
+        postDelayed(mCurrentSmoothScrollRunnable, 20);
+    }
 
 	/**
 	 *
