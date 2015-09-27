@@ -44,6 +44,7 @@ public class MainActivity extends ActivityBase implements IMommentsView{
         rotateLayout=getViewById(R.id.rotateLayout);
 
         View headView = getLayoutInflater().from(this).inflate(R.layout.comments_headview_layout,null);
+        View footView = getLayoutInflater().from(this).inflate(R.layout.footlayout,null);
 
 
         userAvatarIv=(ImageView)headView.findViewById(R.id.id_userAvatar);
@@ -51,6 +52,7 @@ public class MainActivity extends ActivityBase implements IMommentsView{
         profileImage = (ImageView)headView.findViewById(R.id.id_headIv);
 
         pullToRefreshListView.setPullHeaderView(headView);
+        pullToRefreshListView.setPullFooterView(footView);
         pullToRefreshListView.setRotateLayout(rotateLayout);
         pullToRefreshListView.setCacheColorHint(Color.TRANSPARENT);
         pullToRefreshListView.setDividerHeight(0);
@@ -62,10 +64,9 @@ public class MainActivity extends ActivityBase implements IMommentsView{
 
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
                         pullToRefreshListView.onCompleteRefresh();
                     }
-                }, 1500);
+                }, 500);
             }
         });
 
@@ -76,10 +77,9 @@ public class MainActivity extends ActivityBase implements IMommentsView{
 
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
                         pullToRefreshListView.onCompleteRefresh();
                     }
-                }, 1500);
+                }, 500);
             }
         });
 
@@ -110,6 +110,7 @@ public class MainActivity extends ActivityBase implements IMommentsView{
     @Override
     public void showListData(List<MomentsModel> data) {
 
+        this.mDatas = data;
         adapter.setDatas(data);
         adapter.notifyDataSetChanged();
 

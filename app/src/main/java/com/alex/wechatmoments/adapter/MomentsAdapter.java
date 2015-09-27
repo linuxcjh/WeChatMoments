@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 /**
- * Created by chen on 25/9/15.
+ * Adapter
  */
 public class MomentsAdapter extends BaseAdapter {
 

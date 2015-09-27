@@ -9,10 +9,13 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.Adapter;
 import android.widget.ListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.alex.wechatmoments.R;
 
 public class PullListView extends ListView implements OnScrollListener {
 	private float mInitialMotionY, mLastMotionY, moveY_1, moveY_2;
@@ -27,15 +30,20 @@ public class PullListView extends ListView implements OnScrollListener {
 
 	public PullListView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		init();
 	}
 
-	public PullListView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		// TODO Auto-generated constructor stub
-		init();
-	}
+    public PullListView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public PullListView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+
 
 	public PullListView getInstance() {
 		return this;
@@ -43,6 +51,7 @@ public class PullListView extends ListView implements OnScrollListener {
 
 	void init() {
 		getInstance().setOnScrollListener(this);
+
 	}
 
 	private View headerView;
@@ -58,6 +67,19 @@ public class PullListView extends ListView implements OnScrollListener {
 			mScrollAnimationInterpolator = new DecelerateInterpolator();
 		}
 	}
+
+    private View footerView;
+    private ProgressBar footProgessBar;
+    private TextView footTv;
+
+
+    public void setPullFooterView(View v){
+        footerView = v;
+        footProgessBar=(ProgressBar)footerView.findViewById(R.id.id_progressBar);
+        footTv=(TextView)footerView.findViewById(R.id.id_loadTv);
+        footerView.setVisibility(View.GONE);
+        addFooterView(v);
+    }
 
 	public View getPullHeaderView() {
 		return headerView;
@@ -76,7 +98,7 @@ public class PullListView extends ListView implements OnScrollListener {
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		return super.dispatchTouchEvent(ev); // �����¼����ݸ���view
+		return super.dispatchTouchEvent(ev);
 	}
 
 	@Override
@@ -183,6 +205,9 @@ public class PullListView extends ListView implements OnScrollListener {
 	}
 
 	public void onCompleteRefresh() {
+        footProgessBar.setVisibility(View.GONE);
+        footTv.setText("无更多数据");
+//        footerView.setVisibility(View.GONE);
 		if (isRefreshing) {
 			isRefreshing = false;
 		}
@@ -202,9 +227,14 @@ public class PullListView extends ListView implements OnScrollListener {
 	}
 
 	/**
-	 * ����ˢ��
+	 *
 	 */
 	private void OnRefreshing() {
+
+
+        footerView.setVisibility(View.GONE);
+
+
 		isRefreshing = true;
 		rotateLayout.rotateAnimation();
 		mCurrentSmoothScrollRunnable = new SmoothScrollRunnable(
@@ -322,9 +352,11 @@ public class PullListView extends ListView implements OnScrollListener {
 					&& !isRefreshing && !isLoadMore) {
 				if (mOnLoadMoreListener != null) {
 					isLoadMore = true;
+                    footerView.setVisibility(View.VISIBLE);
+                    footProgessBar.setVisibility(View.VISIBLE);
+                    footTv.setText("Loading");
+
 					mOnLoadMoreListener.onLoadMore(getInstance());
-					Toast.makeText(getContext(), "load more", Toast.LENGTH_LONG)
-							.show();
 				}
 			}
 		}

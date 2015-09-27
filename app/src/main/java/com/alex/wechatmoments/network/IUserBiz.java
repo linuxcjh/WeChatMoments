@@ -10,12 +10,21 @@ import retrofit.http.Path;
  */
 public interface IUserBiz {
 
-      String URL = "http://thoughtworks-ios.herokuapp.com";
+    String URL = "http://thoughtworks-ios.herokuapp.com";
 
+    /**
+     * Get user info
+     * @param userName
+     * @param cb
+     */
     @GET("/user/{userName}")
      void getUserInfo(@Path("userName") String userName, Callback<String> cb);
 
-
+    /**
+     * Get tweets
+     * @param userName
+     * @param cb
+     */
     @GET("/user/{userName}/tweets")
     void getListData(@Path("userName") String userName,Callback<String> cb);
 
