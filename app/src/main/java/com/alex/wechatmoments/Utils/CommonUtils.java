@@ -20,6 +20,19 @@ import java.util.Date;
  */
 public class CommonUtils {
 
+    private static Context mContext;
+
+    public static void setContext(Context context) {
+
+        CommonUtils.mContext = context;
+
+    }
+
+    public static Context getContext() {
+        return CommonUtils.mContext;
+    }
+
+
     public static Gson gson = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
             .registerTypeAdapter(Date.class, new DateTypeAdapter())

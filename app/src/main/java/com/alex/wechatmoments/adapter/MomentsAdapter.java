@@ -91,25 +91,26 @@ public class MomentsAdapter extends BaseAdapter {
             holder.senderTv.setText(model.getSender().getUsername());
 
         }
-        if(TextUtils.isEmpty(model.getContent())){//set content
+        if (TextUtils.isEmpty(model.getContent())) {//set content
             holder.contentTv.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.contentTv.setVisibility(View.VISIBLE);
             holder.contentTv.setText(model.getContent());
         }
 
         setImagesLayout(model, holder.imagesGridLayaout);//set images
-        setCommentsLayout(model,holder.commentsGridLayout);//set comments
+        setCommentsLayout(model, holder.commentsGridLayout);//set comments
 
         return convertView;
     }
 
     /**
      * Comments layout
+     *
      * @param model
      * @param commentsGridLayout
      */
-    private void setCommentsLayout(MomentsModel model,GridLayout commentsGridLayout){
+    private void setCommentsLayout(MomentsModel model, GridLayout commentsGridLayout) {
         commentsGridLayout.removeAllViews();
 
 
@@ -126,11 +127,11 @@ public class MomentsAdapter extends BaseAdapter {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext, userNameTv.getText().toString()+contentTv.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, userNameTv.getText().toString() + contentTv.getText().toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
-                view.setPadding(20,10,20,10);
+                view.setPadding(20, 10, 20, 10);
                 commentsGridLayout.addView(view);
             }
         }
@@ -163,7 +164,7 @@ public class MomentsAdapter extends BaseAdapter {
             }
             imagesGridLayaout.setColumnCount(column);
             int count = 0;
-            for (int i = 0; i < row; i++)
+            for (int i = 0; i < row; i++){
                 for (int j = 0; j < column; j++) {
 
                     if (model.getImages().size() > count) {
@@ -178,13 +179,38 @@ public class MomentsAdapter extends BaseAdapter {
                             imageView.setLayoutParams(layoutParams);
                         }
 
-                        Glide.with(mContext).load(model.getImages().get(count).getUrl()).placeholder(R.mipmap.default_avatar).into(imageView);
-//                        Glide.with(mContext).load("http://farm1.staticflickr.com/134/325376313_4ed1988001.jpg").placeholder(R.mipmap.default_avatar).into(imageView);
+                        final String url;
+                        switch (count){ // 测试
+                            case 0:
+                                Glide.with(mContext).load("http://123.57.151.202/xxb/userImg/035655aac00147b2a81ee3111b575f7a//eadc9a2d1e644f3a9d398a8670cefc62_100.jpg").placeholder(R.mipmap.default_avatar).crossFade().into(imageView);
+                                url = "http://123.57.151.202/xxb/userImg/035655aac00147b2a81ee3111b575f7a//eadc9a2d1e644f3a9d398a8670cefc62_100.jpg";
 
-                        final String url = model.getImages().get(count).getUrl();
+                                break;
+                            case 1:
+                                Glide.with(mContext).load("http://123.57.151.202/xxb/userImg/035655aac00147b2a81ee3111b575f7a//7914f54d616a4e6e8d7ab14ef4d3213e_100.jpg").placeholder(R.mipmap.default_avatar).crossFade().into(imageView);
+                                url = "http://123.57.151.202/xxb/userImg/035655aac00147b2a81ee3111b575f7a//7914f54d616a4e6e8d7ab14ef4d3213e_100.jpg";
+
+                                break;
+                            case 2:
+                                Glide.with(mContext).load("http://123.57.151.202/xxb/userImg/035655aac00147b2a81ee3111b575f7a//9084ddc6c2964aa8b1aff555decbae90_100.jpg").placeholder(R.mipmap.default_avatar).crossFade().into(imageView);
+                                url = "http://123.57.151.202/xxb/userImg/035655aac00147b2a81ee3111b575f7a//9084ddc6c2964aa8b1aff555decbae90_100.jpg";
+
+                                break;
+                            case 3:
+                                Glide.with(mContext).load("http://123.57.151.202/xxb/userImg/035655aac00147b2a81ee3111b575f7a//dc9a6a0ccaea436a95cba18a27121403_100.jpg").placeholder(R.mipmap.default_avatar).crossFade().into(imageView);
+                                 url = "http://123.57.151.202/xxb/userImg/035655aac00147b2a81ee3111b575f7a//dc9a6a0ccaea436a95cba18a27121403_100.jpg";
+                                break;
+                            default:
+                                Glide.with(mContext).load(model.getImages().get(count).getUrl()).placeholder(R.mipmap.default_avatar).crossFade().into(imageView);
+                                 url = model.getImages().get(count).getUrl();
+                                break;
+                        }
+
+
                         imageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
                                 Toast.makeText(mContext, "" + url, Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -198,7 +224,9 @@ public class MomentsAdapter extends BaseAdapter {
                     }
 
                 }
-        }
+            }
+            }
+
     }
 }
 

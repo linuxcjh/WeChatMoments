@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alex.wechatmoments.R;
+import com.bumptech.glide.Glide;
 
 /**
  * Pull down and up ListView
@@ -48,19 +49,22 @@ public class CustomListView extends ListView implements OnScrollListener {
 
     private boolean isRefreshing = false, isLoadMore = false;
 
+    private Context mContext;
+
     public CustomListView(Context context) {
         super(context);
-        init();
+
+        init(context);
     }
 
     public CustomListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public CustomListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
 
@@ -68,7 +72,8 @@ public class CustomListView extends ListView implements OnScrollListener {
         return this;
     }
 
-    void init() {
+    void init(Context context) {
+        this.mContext = context;
         getInstance().setOnScrollListener(this);
 
     }
@@ -383,6 +388,7 @@ public class CustomListView extends ListView implements OnScrollListener {
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         // TODO Auto-generated method stub
         if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+            Glide.with(mContext).resumeRequests();
             if (view.getLastVisiblePosition() == view.getCount() - 1
                     && !isRefreshing && !isLoadMore) {
                 if (mOnLoadMoreListener != null) {
@@ -393,6 +399,9 @@ public class CustomListView extends ListView implements OnScrollListener {
                     mOnLoadMoreListener.onLoadMore(getInstance());
                 }
             }
+        }else{
+            Glide.with(mContext).pauseRequests();
+
         }
     }
 }
